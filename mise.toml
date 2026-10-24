@@ -1,0 +1,18 @@
+[tasks.install]
+description = "Install dependencies"
+run = "npm install"
+
+[tasks.dev]
+description = "Start the Eleventy dev server (with Vite) on localhost"
+run = "npm run dev"
+
+[tasks.build]
+description = "Build the site for production into _site/"
+run = "npm run build"
+
+[tasks.clean]
+description = "Remove build output"
+run = "rm -rf _site .11ty-vite"
+
+[tools]
+node = "24"

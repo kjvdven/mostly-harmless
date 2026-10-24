@@ -1,0 +1,16 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+
+# Eleventy
+_site/
+.11ty-vite/
+
+# Misc
+.DS_Store
+.env
+

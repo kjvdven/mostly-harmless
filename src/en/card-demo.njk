@@ -38,9 +38,11 @@ layout: default.njk
   </div>
   {% endfor %}
 
-  <div class="mt-6 auto-grid auto-grid-lg gap-4 bg-slate-100 p-4" data-size="nested-parent">
-    <div class="auto-grid gap-2" data-size="nested-child">
-      {% for i in range(4) %}<div class="bg-emerald-200 p-2">nested, default md</div>{% endfor %}
+  {# The nested grid uses the default md, not its parent's sm: fewer columns than the sky boxes above it. #}
+  <div class="mt-6 auto-grid auto-grid-sm gap-4 bg-slate-100 p-4" data-size="nested-parent">
+    {% for i in range(3) %}<div class="bg-sky-200 p-4">parent: auto-grid-sm</div>{% endfor %}
+    <div class="col-span-full auto-grid gap-4" data-size="nested-child">
+      {% for i in range(6) %}<div class="bg-emerald-200 p-4">nested: default md</div>{% endfor %}
     </div>
   </div>
 </div>

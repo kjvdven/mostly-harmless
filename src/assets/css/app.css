@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./utilities/layout.css";
 
 /* TEMP spike palette — replace with own tokens */
 :root {

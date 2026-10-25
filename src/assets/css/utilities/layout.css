@@ -1,0 +1,60 @@
+@utility layout {
+  --gap: clamp(1rem, 6vw, 3rem);
+  --content: min(48rem, 100% - var(--gap) * 2);
+
+  display: grid;
+  align-items: start;
+  grid-template-columns:
+    [full-start] minmax(var(--gap), 1fr)
+    [popout-start] minmax(0, --spacing(6))
+    [main-start] minmax(0, --spacing(24))
+    [content-start] calc(var(--content) / 2 - 0.75rem)
+    [gap-start] 0.75rem
+    [middle] 0.75rem
+    [gap-end] calc(var(--content) / 2 - 0.75rem)
+    [content-end] minmax(0, --spacing(24))
+    [main-end] minmax(0, --spacing(6))
+    [popout-end] minmax(var(--gap), 1fr)
+    [full-end];
+
+  > * {
+    grid-column: main;
+  }
+}
+
+@utility layout-subgrid {
+  display: grid;
+  grid-template-columns: subgrid;
+
+  > * {
+    grid-column: main;
+  }
+}
+
+@utility layout-full {
+  grid-column: full;
+}
+
+@utility layout-popout {
+  grid-column: popout;
+}
+
+@utility layout-main {
+  grid-column: main;
+}
+
+@utility layout-content {
+  grid-column: content;
+}
+
+@utility layout-left {
+  grid-column: main-start / gap-start;
+}
+
+@utility layout-right {
+  grid-column: gap-end / main-end;
+}
+
+@utility layout-full-right {
+  grid-column: main-start / full-end;
+}

@@ -1,0 +1,25 @@
+---
+title: Layout demo
+layout: default.njk
+---
+
+<div class="layout gap-y-4 py-8">
+  <div class="bg-sky-200 p-4">main (default)</div>
+  <div class="layout-full bg-rose-200 p-4">layout-full</div>
+  <div class="layout-popout bg-amber-200 p-4">layout-popout</div>
+  <div class="layout-main bg-sky-200 p-4">layout-main</div>
+  <div class="layout-content bg-emerald-200 p-4">layout-content</div>
+  <div class="layout-left bg-violet-200 p-4">layout-left</div>
+  <div class="layout-right bg-violet-200 p-4">layout-right</div>
+  <div class="layout-full-right bg-orange-200 p-4">layout-full-right</div>
+
+  <section class="layout-full layout-subgrid gap-y-4 bg-rose-100 py-8">
+    <div class="bg-sky-200 p-4">full band, child on main</div>
+    <div class="layout-content bg-emerald-200 p-4">full band, child on content</div>
+  </section>
+
+  <section class="layout-popout layout-subgrid gap-y-4 bg-amber-100 py-8">
+    <div class="bg-sky-200 p-4">popout band, child on main</div>
+    <div class="layout-content bg-emerald-200 p-4">popout band, child on content</div>
+  </section>
+</div>

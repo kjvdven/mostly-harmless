@@ -1,0 +1,23 @@
+---
+title: Flow demo
+layout: default.njk
+---
+
+<div class="layout py-8">
+  <div class="flow bg-slate-100 p-4">
+    <p class="bg-sky-200">Default flow: 1.5em between siblings</p>
+    <p class="bg-sky-200">Second</p>
+    <h2 class="flow-start-2xl bg-amber-200 text-2xl">flow-start-2xl: more room above this heading, in its own em</h2>
+    <p class="bg-sky-200">Back to the default step</p>
+    <p class="flow-start-none bg-rose-200">flow-start-none: tight against the previous one</p>
+  </div>
+
+  <div class="flow flow-xs bg-slate-100 p-4">
+    <p class="flow-end-xl bg-emerald-200">flow-xs container; first child with flow-end-xl</p>
+    <p class="bg-emerald-200">Second</p>
+    <div class="flow bg-white p-4">
+      <p class="bg-violet-200">Nested flow: back at the default step, not xs</p>
+      <p class="bg-violet-200">Second</p>
+    </div>
+  </div>
+</div>

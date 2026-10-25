@@ -11,3 +11,4 @@ Spike page.
 - [Feed](/en/feed.xml)
 - [Layout demo](/en/layout-demo/)
 - [Flow demo](/en/flow-demo/)
+- [Type demo](/en/type-demo/)

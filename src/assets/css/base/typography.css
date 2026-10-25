@@ -1,0 +1,65 @@
+/* Fluid type scale (utopia.fyi): two points set the scale, every step is computed.
+   Viewport widths and sizes are unitless rem values. Each step grows linearly from
+   its min at --type-vw-min to its max at --type-vw-max. */
+@layer base {
+  :root {
+    --type-vw-min: 20;
+    --type-vw-max: 80;
+    --type-base-min: 1;
+    --type-base-max: 1.125;
+    --type-ratio-min: 1.2;
+    --type-ratio-max: 1.25;
+
+    --type-vw-range: calc(var(--type-vw-max) - var(--type-vw-min));
+    --type-progress: calc((100vw - var(--type-vw-min) * 1rem) / var(--type-vw-range));
+
+    --step--2-min: calc(var(--type-base-min) * pow(var(--type-ratio-min), -2));
+    --step--2-max: calc(var(--type-base-max) * pow(var(--type-ratio-max), -2));
+    --step--2: clamp(calc(var(--step--2-min) * 1rem), calc(var(--step--2-min) * 1rem + (var(--step--2-max) - var(--step--2-min)) * var(--type-progress)), calc(var(--step--2-max) * 1rem));
+
+    --step--1-min: calc(var(--type-base-min) * pow(var(--type-ratio-min), -1));
+    --step--1-max: calc(var(--type-base-max) * pow(var(--type-ratio-max), -1));
+    --step--1: clamp(calc(var(--step--1-min) * 1rem), calc(var(--step--1-min) * 1rem + (var(--step--1-max) - var(--step--1-min)) * var(--type-progress)), calc(var(--step--1-max) * 1rem));
+
+    --step-0-min: var(--type-base-min);
+    --step-0-max: var(--type-base-max);
+    --step-0: clamp(calc(var(--step-0-min) * 1rem), calc(var(--step-0-min) * 1rem + (var(--step-0-max) - var(--step-0-min)) * var(--type-progress)), calc(var(--step-0-max) * 1rem));
+
+    --step-1-min: calc(var(--type-base-min) * pow(var(--type-ratio-min), 1));
+    --step-1-max: calc(var(--type-base-max) * pow(var(--type-ratio-max), 1));
+    --step-1: clamp(calc(var(--step-1-min) * 1rem), calc(var(--step-1-min) * 1rem + (var(--step-1-max) - var(--step-1-min)) * var(--type-progress)), calc(var(--step-1-max) * 1rem));
+
+    --step-2-min: calc(var(--type-base-min) * pow(var(--type-ratio-min), 2));
+    --step-2-max: calc(var(--type-base-max) * pow(var(--type-ratio-max), 2));
+    --step-2: clamp(calc(var(--step-2-min) * 1rem), calc(var(--step-2-min) * 1rem + (var(--step-2-max) - var(--step-2-min)) * var(--type-progress)), calc(var(--step-2-max) * 1rem));
+
+    --step-3-min: calc(var(--type-base-min) * pow(var(--type-ratio-min), 3));
+    --step-3-max: calc(var(--type-base-max) * pow(var(--type-ratio-max), 3));
+    --step-3: clamp(calc(var(--step-3-min) * 1rem), calc(var(--step-3-min) * 1rem + (var(--step-3-max) - var(--step-3-min)) * var(--type-progress)), calc(var(--step-3-max) * 1rem));
+
+    --step-4-min: calc(var(--type-base-min) * pow(var(--type-ratio-min), 4));
+    --step-4-max: calc(var(--type-base-max) * pow(var(--type-ratio-max), 4));
+    --step-4: clamp(calc(var(--step-4-min) * 1rem), calc(var(--step-4-min) * 1rem + (var(--step-4-max) - var(--step-4-min)) * var(--type-progress)), calc(var(--step-4-max) * 1rem));
+
+    --step-5-min: calc(var(--type-base-min) * pow(var(--type-ratio-min), 5));
+    --step-5-max: calc(var(--type-base-max) * pow(var(--type-ratio-max), 5));
+    --step-5: clamp(calc(var(--step-5-min) * 1rem), calc(var(--step-5-min) * 1rem + (var(--step-5-max) - var(--step-5-min)) * var(--type-progress)), calc(var(--step-5-max) * 1rem));
+
+    --step-6-min: calc(var(--type-base-min) * pow(var(--type-ratio-min), 6));
+    --step-6-max: calc(var(--type-base-max) * pow(var(--type-ratio-max), 6));
+    --step-6: clamp(calc(var(--step-6-min) * 1rem), calc(var(--step-6-min) * 1rem + (var(--step-6-max) - var(--step-6-min)) * var(--type-progress)), calc(var(--step-6-max) * 1rem));
+  }
+}
+
+/* inline: utilities point at the step variables instead of a copied value. */
+@theme inline {
+  --text-xs: var(--step--2);
+  --text-sm: var(--step--1);
+  --text-base: var(--step-0);
+  --text-lg: var(--step-1);
+  --text-xl: var(--step-2);
+  --text-2xl: var(--step-3);
+  --text-3xl: var(--step-4);
+  --text-4xl: var(--step-5);
+  --text-5xl: var(--step-6);
+}

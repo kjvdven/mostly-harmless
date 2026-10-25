@@ -5,6 +5,8 @@ import { feedPlugin } from "@11ty/eleventy-plugin-rss";
 import { copyEleventyOutput } from "./src/_config/copy-eleventy-output.js";
 import markdownItShiki from "@shikijs/markdown-it";
 import { createCssVariablesTheme } from "shiki";
+import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+import { svg } from "./src/_config/shortcodes/svg.js";
 
 export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(I18nPlugin, {
@@ -17,6 +19,14 @@ export default async function (eleventyConfig) {
     langAlias: { njk: "jinja-html" },
   });
   eleventyConfig.amendLibrary("md", (md) => md.use(shiki));
+
+  eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
+    formats: ["avif", "webp", "jpeg", "svg"],
+    svgShortCircuit: true,
+    widths: ["auto"],
+  });
+
+  eleventyConfig.addShortcode("svg", svg);
 
   eleventyConfig.addPlugin(feedPlugin, {
     type: "atom",
@@ -34,6 +44,10 @@ export default async function (eleventyConfig) {
     viteOptions: {
       publicDir: "public",
       plugins: [Tailwindcss(), copyEleventyOutput([".xml"])],
+      build: {
+        // Vite inlines assets under 4 kB as data URIs; keep images as cacheable files.
+        assetsInlineLimit: 0,
+      },
     },
   });
 

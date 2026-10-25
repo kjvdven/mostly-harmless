@@ -3,11 +3,20 @@ import EleventyVitePlugin from "@11ty/eleventy-plugin-vite";
 import Tailwindcss from "@tailwindcss/vite";
 import { feedPlugin } from "@11ty/eleventy-plugin-rss";
 import { copyEleventyOutput } from "./src/_config/copy-eleventy-output.js";
+import markdownItShiki from "@shikijs/markdown-it";
+import { createCssVariablesTheme } from "shiki";
 
 export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(I18nPlugin, {
     defaultLanguage: "en",
   });
+
+  const shiki = await markdownItShiki({
+    theme: createCssVariablesTheme(),
+    langs: ["html", "css", "js", "ts", "json", "yaml", "bash", "jinja"],
+    langAlias: { njk: "jinja-html" },
+  });
+  eleventyConfig.amendLibrary("md", (md) => md.use(shiki));
 
   eleventyConfig.addPlugin(feedPlugin, {
     type: "atom",

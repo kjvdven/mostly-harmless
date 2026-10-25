@@ -1,1 +1,3 @@
-console.log("Vite JS loaded");
+import { initAnimations } from "./animations/index.js";
+
+initAnimations();

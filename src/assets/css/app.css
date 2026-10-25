@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./base/typography.css";
+@import "./components/prose.css";
 @import "./utilities/layout.css";
 @import "./utilities/flow.css";
 

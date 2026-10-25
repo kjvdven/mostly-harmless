@@ -3,6 +3,7 @@
 @import "./components/prose.css";
 @import "./utilities/layout.css";
 @import "./utilities/flow.css";
+@import "./utilities/stretched-link.css";
 
 /* TEMP spike palette — replace with own tokens */
 :root {

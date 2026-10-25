@@ -1,0 +1,22 @@
+/* As many columns as fit, each at least the minimum wide (Andy Bell's auto-grid).
+   auto-fill keeps empty tracks, so a few items keep their width instead of stretching. */
+@theme {
+  --auto-grid-min-sm: 16rem;
+  --auto-grid-min-md: 20rem;
+  --auto-grid-min-lg: 24rem;
+}
+
+/* Not inherited: a nested auto-grid starts at the default, not its parent's minimum. */
+@property --auto-grid-min {
+  syntax: "*";
+  inherits: false;
+}
+
+@utility auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--auto-grid-min, var(--auto-grid-min-md)), 100%), 1fr));
+}
+
+@utility auto-grid-* {
+  --auto-grid-min: --value(--auto-grid-min-*);
+}

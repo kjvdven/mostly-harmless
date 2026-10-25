@@ -1,0 +1,52 @@
+/* Steps are in em, so content spacing follows its own font size. */
+@theme {
+  --flow-step-none: 0;
+  --flow-step-xs: 0.5em;
+  --flow-step-sm: 1em;
+  --flow-step-md: 1.5em;
+  --flow-step-lg: 2em;
+  --flow-step-xl: 2.5em;
+  --flow-step-2xl: 3.5em;
+  --flow-step-3xl: 6em;
+  --flow-step-4xl: 9em;
+}
+
+/* A child's own gap must stay its own: custom properties inherit, and a band
+   given flow-start-none would otherwise zero every flow inside it. */
+@property --flow-start {
+  syntax: "*";
+  inherits: false;
+}
+
+@property --flow-end {
+  syntax: "*";
+  inherits: false;
+}
+
+/* The step is set on the children, not the container: a nested flow then takes
+   its own gap from its parent's step and passes its own step to its children. */
+@utility flow {
+  > * {
+    --flow-space: var(--flow-step-md);
+    margin-block-end: var(--flow-end, 0);
+  }
+
+  > * + * {
+    margin-block-start: var(--flow-start, var(--flow-space));
+  }
+}
+
+@utility flow-* {
+  > * {
+    --flow-space: --value(--flow-step-*);
+  }
+}
+
+/* A child's own gap, overriding the container's step. */
+@utility flow-start-* {
+  --flow-start: --value(--flow-step-*);
+}
+
+@utility flow-end-* {
+  --flow-end: --value(--flow-step-*);
+}

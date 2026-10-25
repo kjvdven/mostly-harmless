@@ -4,6 +4,7 @@
 @import "./utilities/layout.css";
 @import "./utilities/flow.css";
 @import "./utilities/link-box.css";
+@import "./utilities/auto-grid.css";
 
 /* TEMP spike palette — replace with own tokens */
 :root {

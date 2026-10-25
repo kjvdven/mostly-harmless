@@ -7,7 +7,7 @@ layout: default.njk
   <h1 class="text-3xl font-bold">Card demo</h1>
 
   {# role="list": without list-style Safari/VoiceOver would drop the list semantics. #}
-  <ul role="list" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <ul role="list" class="mt-8 auto-grid auto-grid-sm gap-6">
     {% for card in [
       { title: "Don't panic", tag: "guide" },
       { title: "Mostly harmless", tag: "earth" },
@@ -29,4 +29,18 @@ layout: default.njk
     </li>
     {% endfor %}
   </ul>
+
+  <h2 class="mt-16 text-2xl font-bold">auto-grid sizes</h2>
+  {# Full class names, not "auto-grid-" ~ size: Tailwind only finds literal class names. #}
+  {% for size in ["auto-grid-sm", "auto-grid-md", "auto-grid-lg"] %}
+  <div class="mt-6 auto-grid {{ size }} gap-4" data-size="{{ size }}">
+    {% for i in range(6) %}<div class="bg-sky-200 p-4">{{ size }}</div>{% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="mt-6 auto-grid auto-grid-lg gap-4 bg-slate-100 p-4" data-size="nested-parent">
+    <div class="auto-grid gap-2" data-size="nested-child">
+      {% for i in range(4) %}<div class="bg-emerald-200 p-2">nested, default md</div>{% endfor %}
+    </div>
+  </div>
 </div>

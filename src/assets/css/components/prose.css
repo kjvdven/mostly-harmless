@@ -1,0 +1,157 @@
+/* Long-form content from Markdown. Use with flow for the rhythm; width is the
+   layout's job (layout-content), so unlike Tailwind Typography there is no max-width.
+   :where() keeps every rule at the specificity of .prose, so utilities still win. */
+@layer components {
+  .prose {
+    font-size: var(--step-0);
+    line-height: 1.6;
+  }
+
+  .prose :where(h1, h2, h3, h4, h5, h6) {
+    font-weight: 700;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  .prose :where(h1) { font-size: var(--step-5); }
+  .prose :where(h2) { font-size: var(--step-4); }
+  .prose :where(h3) { font-size: var(--step-3); }
+  .prose :where(h4) { font-size: var(--step-2); }
+  .prose :where(h5) { font-size: var(--step-1); }
+  .prose :where(h6) { font-size: var(--step-0); }
+
+  /* A heading belongs to what follows: room above, tight below. Steps are em,
+     so a bigger heading gets more room. */
+  .prose > :where(h2, h3) { --flow-start: var(--flow-step-lg); }
+  .prose > :where(h4, h5, h6) { --flow-start: var(--flow-step-md); }
+  .prose > :where(h1, h2, h3, h4, h5, h6) + * { --flow-start: var(--flow-step-xs); }
+
+  .prose :where(p, li, dd) {
+    text-wrap: pretty;
+  }
+
+  .prose :where(a) {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .prose :where(a:hover) {
+    text-decoration-thickness: 2px;
+  }
+
+  .prose :where(a:focus-visible) {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Keep the markers: with list-style: none Safari/VoiceOver drops the list semantics. */
+  .prose :where(ul, ol) {
+    padding-inline-start: 1.5em;
+  }
+
+  .prose :where(ul) { list-style-type: disc; }
+  .prose :where(ol) { list-style-type: decimal; }
+  .prose :where(ul ul) { list-style-type: circle; }
+
+  .prose :where(li + li, li > ul, li > ol) {
+    margin-block-start: 0.25em;
+  }
+
+  .prose :where(li)::marker {
+    color: var(--color-slate-500);
+  }
+
+  .prose :where(dt) {
+    font-weight: 600;
+  }
+
+  .prose :where(dd) {
+    padding-inline-start: 1.5em;
+  }
+
+  .prose :where(dd + dt) {
+    margin-block-start: 0.75em;
+  }
+
+  .prose :where(blockquote) {
+    border-inline-start: 4px solid var(--color-slate-300);
+    padding-inline-start: 1em;
+    font-style: italic;
+  }
+
+  .prose :where(figcaption) {
+    margin-block-start: 0.5em;
+    font-size: var(--step--1);
+    color: var(--color-slate-600);
+  }
+
+  .prose :where(:not(pre) > code, kbd) {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    border-radius: 0.25em;
+    padding: 0.1em 0.3em;
+  }
+
+  .prose :where(:not(pre) > code) {
+    background-color: var(--color-slate-100);
+  }
+
+  .prose :where(kbd) {
+    border: 1px solid var(--color-slate-300);
+    border-block-end-width: 2px;
+  }
+
+  .prose :where(pre) {
+    border-radius: 0.5em;
+  }
+
+  .prose :where(mark) {
+    background-color: var(--color-yellow-200);
+    color: inherit;
+    padding-inline: 0.1em;
+  }
+
+  .prose :where(abbr[title]) {
+    text-decoration: underline dotted;
+    cursor: help;
+  }
+
+  .prose :where(small) {
+    font-size: var(--step--1);
+  }
+
+  .prose :where(hr) {
+    border-block-start: 1px solid var(--color-slate-300);
+  }
+
+  /* Wrap tables in a scroll region so only the table scrolls, not the page. */
+  .prose :where(.table-scroll) {
+    overflow-x: auto;
+  }
+
+  .prose :where(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .prose :where(caption) {
+    caption-side: top;
+    text-align: start;
+    font-weight: 600;
+    padding-block-end: 0.5em;
+  }
+
+  .prose :where(th, td) {
+    text-align: start;
+    padding: 0.5em 0.75em;
+    border-block-end: 1px solid var(--color-slate-200);
+  }
+
+  .prose :where(thead th) {
+    border-block-end-width: 2px;
+    border-block-end-color: var(--color-slate-300);
+  }
+}

@@ -14,16 +14,17 @@ layout: default.njk
       { title: "So long, and thanks for all the fish", tag: "dolphins" }
     ] %}
     <li>
-      <article class="stretched-link-container flow flow-sm bg-slate-100 p-4">
-        {# Decorative here: the title already names the card. #}
+      <article class="link-box flow flow-sm bg-slate-100 p-4">
         <div class="overflow-hidden">
-          <img src="./blog/spike.jpg" alt="" class="w-full motion-safe:transition-transform card-hover:scale-105">
+          {# Decorative here: the title already names the card. #}
+          <img src="./blog/spike.jpg" alt="" class="w-full motion-safe:transition-transform link-box-hover:scale-105">
         </div>
         <h2 class="text-xl font-bold">
-          <a href="/en/blog/2026-10-25-spike/" class="stretched-link card-hover:underline">{{ card.title }}</a>
+          <a href="/en/blog/2026-10-25-spike/" class="link-overlay link-box-hover:underline">{{ card.title }}</a>
         </h2>
         <p>The whole card is clickable, but there is only one link: the title.</p>
-        <a href="/en/feed.xml" class="stretched-link-above text-sm underline">#{{ card.tag }}</a>
+        <a href="/en/feed.xml" class="text-sm underline">#{{ card.tag }}</a>
+        <button type="button" class="flow-start-none absolute top-2 right-2 bg-white px-2 text-sm" aria-label="Save {{ card.title }}">Save</button>
       </article>
     </li>
     {% endfor %}

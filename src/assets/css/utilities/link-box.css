@@ -1,0 +1,40 @@
+/* A box made clickable by one main link (link-overlay) whose ::after covers it, so
+   screen readers hear a single, short link. Naming follows Chakra UI's LinkBox. */
+@utility link-box {
+  position: relative;
+
+  /* Every other interactive element stays clickable on its own, above the overlay.
+     :where() keeps this at .link-box specificity, so utilities like absolute still win. */
+  & :where(a:not(.link-overlay), button, input, select, textarea, summary) {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* The ring sits on the box, not on the link that has focus. */
+  &:has(.link-overlay:focus-visible) {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+}
+
+@utility link-overlay {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+/* Hover styles for anything in the box, only while the overlay link is hovered:
+   group-hover would also fire over the other links in the box. */
+@custom-variant link-box-hover {
+  @media (hover: hover) {
+    &:where(.link-box:has(.link-overlay:hover) *) {
+      @slot;
+    }
+  }
+}

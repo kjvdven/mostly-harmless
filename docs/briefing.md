@@ -60,7 +60,7 @@ vanaf dag één wél meertalig-klaar, omdat URL's achteraf omzetten links breekt
 bijna niets kost. Nederlands volgt in een latere versie; vertalen is daarna **optioneel**
 (content mag in één taal bestaan).
 
-**In v1:** `/en/`-prefix, `src/en/`-map, `lang` via directory data, UI-strings via
+**In v1:** `/en/`-prefix, `src/en/`-map, `page.lang` via de I18nPlugin, UI-strings via
 `src/_data/i18n.js` + `t`-filter (alleen EN gevuld), redirect `/` → `/en/`.
 **Later (bij NL):** `src/nl/`, taalwisselaar, `hreflang`-links, NL-feed.
 
@@ -68,8 +68,8 @@ bijna niets kost. Nederlands volgt in een latere versie; vertalen is daarna **op
 
 - Beide talen krijgen een prefix: `/en/...` en `/nl/...`.
 - `/` stuurt met een `301` door naar `/en/`, via een `_redirects`-bestand. Sevalla leest
-  `_redirects` uit de publish directory, dus het bestand wordt met passthrough copy naar
-  de output gekopieerd. Regel: `/  /en/  301`.
+  `_redirects` uit de publish directory; het bestand staat in `public/` en komt via Vite's
+  `publicDir` in de output. Regel: `/  /en/  301`.
 - 404 per taal via `_redirects`: `/en/*  /en/404.html  404` (en later `/nl/*`).
 - Geen JavaScript-redirect en geen taaldetectie (slecht voor toegankelijkheid en SEO).
 
@@ -80,8 +80,8 @@ in een andere taal.
 
 **Uitgangspunten (gelden zodra NL er is):**
 
-- **Content per taal in een eigen map:** `src/en/...` en `src/nl/...`, met een directory
-  data file per taal die `lang` zet.
+- **Content per taal in een eigen map:** `src/en/...` en `src/nl/...`; de I18nPlugin leidt
+  `page.lang` af uit die map.
 - **Zelfde slug in beide talen** (`/en/patterns/disclosure/` ↔ `/nl/patterns/disclosure/`),
   zodat de plugin vertalingen automatisch aan elkaar koppelt (`locale_links`).
 - **UI-strings** (navigatie, labels, knoppen) in één woordenboek, `src/_data/i18n.js`,
@@ -148,9 +148,10 @@ CSS-technieken/layouts en code-snippets (JS, Nunjucks, tooling).
 - **Single source of truth:** de demo en de getoonde code komen uit hetzelfde bestand.
   Een Nunjucks-shortcode (bijv. `{% demo "disclosure" %}`) rendert de demo én toont de
   broncode, zodat die twee nooit uit elkaar lopen.
-- **Code-highlighting:** tijdens de build met `@11ty/eleventy-plugin-syntaxhighlight`
-  (Prism). Geen client-side JS nodig; het kleurenschema wordt met Tailwind-tokens gestyled
-  en moet in light én dark mode voldoen aan het contrast van WCAG AA.
+- **Code-highlighting:** tijdens de build met Shiki (`@shikijs/markdown-it`) en een
+  CSS-variables-theme: elk token krijgt `var(--shiki-token-*)`, gevuld met Tailwind-tokens,
+  contrast WCAG AA in light én dark. Geen client-side JS. `njk` is een alias voor
+  `jinja-html`. Nunjucks-voorbeelden in Markdown altijd in `{% raw %}`.
 - **Overzicht:** gegroepeerd per `category`, zonder JS. Filteren met JS kan later als
   progressive enhancement.
 - **Demo-weergave:** iframe met een losse demopagina per pattern
@@ -239,8 +240,9 @@ Elke pagina krijgt JSON-LD (schema.org) in de `<head>`. Dit is een kernvereiste,
 | Bundler           | Vite via `@11ty/eleventy-plugin-vite`            | Vite 8.3.5, plugin 8.0.0 | Lemone-standaard: CSS en JS altijd via Vite                                                                                                  |
 | CSS               | Tailwind CSS via `@tailwindcss/vite`             | 4.3.3                    | Keuze van Kris, in lijn met de Lemone-standaard                                                                                              |
 | Feed              | `@11ty/eleventy-plugin-rss`                      | 3.1.0                    | Officiële plugin; Atom-feed via virtual template                                                                                             |
-| Code-highlighting | `@11ty/eleventy-plugin-syntaxhighlight`          | 5.0.2                    | Highlighting tijdens de build, geen client-side JS                                                                                           |
-| Afbeeldingen      | `@11ty/eleventy-img`                             | 7.1.1                    | Responsive afbeeldingen, moderne formaten, geen layout shift                                                                                 |
+| Code-highlighting | Shiki (`@shikijs/markdown-it`)                   | 4.x                      | VS Code-grammars, ondersteunt Nunjucks, kleuren via CSS-variabelen; de Prism-plugin wordt sinds 2025 niet bijgewerkt                         |
+| Afbeeldingen      | `@11ty/eleventy-img`                             | 7.x                      | Responsive afbeeldingen, moderne formaten, geen layout shift                                                                                 |
+| SVG               | `svgo`                                           | 4.x                      | Inline SVG via `{% svg %}`-shortcode, geoptimaliseerd, met aria-label of aria-hidden                                                         |
 | Animatie          | GSAP (`gsap`)                                    | 3.15.0                   | Keuze van Kris; via Vite geïmporteerd, alleen op pagina's die het gebruiken                                                                  |
 | JavaScript        | Vanilla JS, progressive enhancement              | n.v.t.                   | Site werkt volledig zonder JS; JS voegt alleen gedrag toe                                                                                    |
 | Hosting           | Sevalla Static Site Hosting                      | n.v.t.                   | Gratis, bouwt vanuit de GitHub-repo zelf (geen GitHub Actions nodig), Cloudflare CDN, ondersteunt `_redirects` en een instelbare Node-versie |
@@ -275,10 +277,12 @@ Elke pagina krijgt JSON-LD (schema.org) in de `<head>`. Dit is een kernvereiste,
 
 - `@11ty/eleventy-plugin-vite` 8.0.0 vereist Vite ^8.0.9. De combinatie met Eleventy 3.1 is
   bewezen in eleventy-plus-vite (zie Referenties).
-- **Open risico:** bij een build hernoemt de plugin `_site` naar een tijdelijke map en laat
-  Vite alleen de HTML opnieuw bouwen. Niet-HTML-output (`_redirects`, `feed.xml`,
-  afbeeldingen van eleventy-img) moet daarom via `public/` en Vite's `publicDir`. Dit is de
-  kernvraag van de spike (dev-server én productiebuild).
+- **Niet-HTML-output:** de plugin laat Vite alleen HTML opnieuw bouwen. Wat de HTML refereert
+  (CSS, JS, afbeeldingen) bundelt Vite zelf, met hash; de rest verdwijnt. Daarom:
+  - statische bestanden (`_redirects`) in `public/` in de root, met `publicDir: "public"`;
+  - door Eleventy gegenereerde bestanden (`feed.xml`) via de eigen Vite-plugin
+    `src/_config/copy-eleventy-output.js`;
+  - `build.assetsInlineLimit: 0`, anders zet Vite kleine afbeeldingen als data-URI in de HTML.
 
 ### Eleventy 4 later
 
@@ -324,12 +328,16 @@ Dezelfde principes als bij elk Lemone-project — _Puur Online Vakmanschap_:
 darth-folio/
 ├── mise.toml                  # Node-versie (24.x)
 ├── package.json               # dependencies, engines (node 24.x)
-├── eleventy.config.js         # plugins (Vite, i18n, RSS, syntaxhighlight), filters, shortcodes
+├── eleventy.config.js         # plugins (Vite, i18n, RSS, Shiki, img), filters, shortcodes
 ├── PROJECT_BRIEFING.md        # dit document
+├── public/
+│   └── _redirects             # / → /en/, 404 per taal (via Vite publicDir)
 └── src/
-    ├── _redirects             # / → /en/, 404 per taal (passthrough copy)
     ├── _config/
-    │   └── json-ld.js         # bouwt de @graph per paginatype + jsonLd-filter
+    │   ├── copy-eleventy-output.js  # Vite-plugin: houdt feed.xml e.d. na de Vite-build
+    │   ├── json-ld.js         # bouwt de @graph per paginatype + jsonLd-filter
+    │   └── shortcodes/
+    │       └── svg.js         # {% svg "map/naam", "label", "class" %}
     ├── _data/
     │   ├── site.js            # titel, URL, auteur, profielen (bron voor Person/sameAs)
     │   └── i18n.js            # UI-strings per taal
@@ -337,15 +345,17 @@ darth-folio/
     │   ├── layouts/           # base.njk, page.njk, post.njk, pattern.njk, project.njk, demo.njk
     │   └── partials/          # header, footer, nav, project-card, tag-list, json-ld
     ├── assets/
-    │   ├── css/main.css       # Tailwind 4 (@import "tailwindcss", @theme, @source)
-    │   └── js/                # vanilla JS-modules (progressive enhancement)
+    │   ├── css/app.css        # Tailwind 4 (@import "tailwindcss", @theme)
+    │   ├── js/app.js          # entry; vanilla JS-modules (progressive enhancement)
+    │   ├── js/animations/     # één GSAP-animatie per bestand, index.js regelt reduced motion
+    │   ├── images/
+    │   ├── fonts/
+    │   └── svg/               # inline SVG's voor de {% svg %}-shortcode (niet alleen iconen)
     ├── demos/                 # demo-markup per pattern (taalonafhankelijk, één bron)
     ├── en/
-    │   ├── en.11tydata.js     # lang: "en"
     │   ├── index.njk          # homepage
     │   ├── about.md           # over Kris
     │   ├── 404.njk
-    │   ├── feed.njk           # of virtual template via de RSS-plugin
     │   ├── blog/              # posts + blog.11tydata.js
     │   ├── patterns/          # patterns + patterns.11tydata.js
     │   └── projects/          # projecten + projects.11tydata.js
@@ -475,8 +485,15 @@ collectienamen. Alleen de content en de UI-strings in `src/_data/i18n.js` zijn t
       _Blocked by:_ inventarisatie door Kris vóór de DNS-omzetting.
 - [ ] Welke profielen en contactkanalen op de About-pagina (bijv. e-mail,
       GitHub, LinkedIn). Kris kiest zelf welke kanalen erop komen.
-- [ ] Spike-resultaten (zie Volgende stappen, stap 2). Na de spike hier vastleggen wat wel en
-      niet werkte met Eleventy 3 + Vite.
+- [x] Spike-resultaten (25-10-2026): alles werkt met Eleventy 3.1.7 + Vite 8, in dev en build.
+  - Vite-plugin: niet-HTML-output vraagt extra werk, zie "Vite + Eleventy".
+  - Tailwind 4: scant `.njk` en `.md` automatisch, geen `@source` nodig.
+  - GSAP: via Vite; reduced motion centraal via `gsap.matchMedia()`, één animatie per bestand
+    in `assets/js/animations/`.
+  - I18nPlugin: `page.lang` in de layout; een directory data file voor `lang` is niet nodig.
+  - Highlighting: Shiki in plaats van Prism, zie Code-highlighting.
+  - Afbeeldingen: eleventy-img-transform; Vite hasht de output. SVG blijft SVG (`svgShortCircuit`).
+  - Valkuil: `markdownTemplateEngine: "njk"` voert Nunjucks in codeblokken uit → `{% raw %}`.
 
 ---
 
@@ -489,7 +506,7 @@ collectienamen. Alleen de content en de UI-strings in `src/_data/i18n.js` zijn t
    - `@11ty/eleventy-plugin-vite` + `@tailwindcss/vite` (CSS met gehashte bestandsnamen)
    - een GSAP-import via Vite in de productiebuild
    - `I18nPlugin` met `/en/`-prefix
-   - `@11ty/eleventy-plugin-rss`, `@11ty/eleventy-plugin-syntaxhighlight`, `@11ty/eleventy-img`
+   - `@11ty/eleventy-plugin-rss`, code-highlighting (werd Shiki), `@11ty/eleventy-img`
    - passthrough copy van `_redirects`
      Werkt iets niet: issue zoeken/melden bij 11ty, en per plugin beslissen (workaround, of
      die ene dependency tijdelijk anders oplossen).

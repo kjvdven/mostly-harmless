@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* TEMP spike palette — replace with own tokens */
+:root {
+  --shiki-background: var(--color-slate-50);
+  --shiki-foreground: var(--color-slate-800);
+  --shiki-token-keyword: var(--color-rose-700);
+  --shiki-token-string: var(--color-emerald-700);
+  --shiki-token-string-expression: var(--color-emerald-700);
+  --shiki-token-constant: var(--color-blue-700);
+  --shiki-token-function: var(--color-violet-700);
+  --shiki-token-comment: var(--color-slate-500);
+  --shiki-token-parameter: var(--color-amber-800);
+  --shiki-token-punctuation: var(--color-slate-600);
+  --shiki-token-link: var(--color-blue-700);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --shiki-background: var(--color-slate-900);
+    --shiki-foreground: var(--color-slate-100);
+    --shiki-token-keyword: var(--color-rose-300);
+    --shiki-token-string: var(--color-emerald-300);
+    --shiki-token-string-expression: var(--color-emerald-300);
+    --shiki-token-constant: var(--color-blue-300);
+    --shiki-token-function: var(--color-violet-300);
+    --shiki-token-comment: var(--color-slate-400);
+    --shiki-token-parameter: var(--color-amber-300);
+    --shiki-token-punctuation: var(--color-slate-300);
+    --shiki-token-link: var(--color-blue-300);
+  }
+}
+
+.shiki {
+  padding: 1rem;
+  overflow-x: auto;
+}

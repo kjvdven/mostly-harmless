@@ -9,3 +9,4 @@ Spike page.
 
 - [Spike post](/en/blog/2026-10-25-spike/)
 - [Feed](/en/feed.xml)
+- [Layout demo](/en/layout-demo/)

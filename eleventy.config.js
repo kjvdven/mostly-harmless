@@ -9,6 +9,7 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { svg } from "./src/_config/shortcodes/svg.js";
 import { figure, split } from "./src/_config/shortcodes/figure.js";
 import { t } from "./src/_config/filters/t.js";
+import { jsonLd } from "./src/_config/filters/json-ld.js";
 
 export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(I18nPlugin, {
@@ -29,6 +30,7 @@ export default async function (eleventyConfig) {
   });
 
   eleventyConfig.addFilter("t", t);
+  eleventyConfig.addFilter("jsonLd", jsonLd);
   eleventyConfig.addShortcode("svg", svg);
   eleventyConfig.addShortcode("figure", figure);
   eleventyConfig.addPairedShortcode("split", split);

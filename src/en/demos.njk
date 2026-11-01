@@ -1,0 +1,13 @@
+---
+title: Demos
+layout: default.njk
+noindex: true
+---
+<div class="layout py-8 flow">
+  <h1>{{ title }}</h1>
+  <ul role="list">
+    {% for demo in collections.demo | sort(false, false, "data.title") %}
+    <li><a href="{{ demo.url }}">{{ demo.data.title }}</a></li>
+    {% endfor %}
+  </ul>
+</div>

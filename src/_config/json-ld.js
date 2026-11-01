@@ -7,7 +7,8 @@ export function buildGraph(data) {
   const { site, page } = data;
   // Read via data.page, not the destructured page: Eleventy only then waits for the computed page.lang.
   const lang = data.page.lang;
-  if (!page.url) {
+  // Demo pages are noindex and stay out of structured data.
+  if (!page.url || data.noindex) {
     return undefined;
   }
 

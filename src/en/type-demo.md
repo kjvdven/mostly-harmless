@@ -1,6 +1,8 @@
 ---
 title: Type demo
 layout: default.njk
+tags: demo
+noindex: true
 ---
 
 <div class="layout py-8">

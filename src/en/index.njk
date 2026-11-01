@@ -1,0 +1,33 @@
+---
+title: Mostly Harmless
+layout: default.njk
+---
+<div class="layout py-8 flow">
+  <h1>Hi, I'm Kris</h1>
+  <p>I'm a front-end developer at Lemone. I build websites that work for everyone and write about the patterns I pick up along the way.</p>
+  <p><a href="/{{ page.lang }}/about/">{{ "moreAboutMe" | t }}</a></p>
+
+  <section class="flow" aria-labelledby="latest-posts">
+    <h2 id="latest-posts">{{ "latestPosts" | t }}</h2>
+    <ul role="list">
+      {% for post in collections.blog | reverse | head(3) %}
+      <li>
+        <a href="{{ post.url }}">{{ post.data.title }}</a>
+        <time datetime="{{ post.date.toISOString() }}">{{ post.date | readableDate }}</time>
+      </li>
+      {% endfor %}
+    </ul>
+    <p><a href="/{{ page.lang }}/blog/">{{ "allPosts" | t }}</a></p>
+  </section>
+
+  <section class="flow" aria-labelledby="projects">
+    <h2 id="projects">{{ "projects" | t }}</h2>
+    {% set cardHeadingLevel = 3 %}
+    <ul role="list" class="auto-grid gap-6">
+      {% for project in collections.projects | head(3) %}
+      <li>{% include "partials/project-card.njk" %}</li>
+      {% endfor %}
+    </ul>
+    <p><a href="/{{ page.lang }}/projects/">{{ "allProjects" | t }}</a></p>
+  </section>
+</div>

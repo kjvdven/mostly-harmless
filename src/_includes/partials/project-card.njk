@@ -2,13 +2,14 @@
   {% if project.data.image %}
   <img src="{{ project.data.image }}" alt="" sizes="(min-width: 60rem) 20rem, 100vw" eleventy:widths="480,960">
   {% endif %}
-  <h2>
+  {% set level = cardHeadingLevel or 2 %}
+  <h{{ level }}>
     {% if project.data.caseStudy %}
     <a href="{{ project.url }}" class="link-overlay">{{ project.data.title }}</a>
     {% else %}
     {{ project.data.title }}
     {% endif %}
-  </h2>
+  </h{{ level }}>
   <p>{{ project.data.description }}</p>
   <p>{{ project.data.type }} · {{ project.data.year }}</p>
 </article>

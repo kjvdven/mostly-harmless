@@ -1,0 +1,14 @@
+<article class="link-box flow flow-sm">
+  {% if project.data.image %}
+  <img src="{{ project.data.image }}" alt="" sizes="(min-width: 60rem) 20rem, 100vw" eleventy:widths="480,960">
+  {% endif %}
+  <h2>
+    {% if project.data.caseStudy %}
+    <a href="{{ project.url }}" class="link-overlay">{{ project.data.title }}</a>
+    {% else %}
+    {{ project.data.title }}
+    {% endif %}
+  </h2>
+  <p>{{ project.data.description }}</p>
+  <p>{{ project.data.type }} · {{ project.data.year }}</p>
+</article>

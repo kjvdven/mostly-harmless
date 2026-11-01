@@ -7,6 +7,7 @@ import markdownItShiki from "@shikijs/markdown-it";
 import { createCssVariablesTheme } from "shiki";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { svg } from "./src/_config/shortcodes/svg.js";
+import { figure, split } from "./src/_config/shortcodes/figure.js";
 
 export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(I18nPlugin, {
@@ -27,6 +28,14 @@ export default async function (eleventyConfig) {
   });
 
   eleventyConfig.addShortcode("svg", svg);
+  eleventyConfig.addShortcode("figure", figure);
+  eleventyConfig.addPairedShortcode("split", split);
+
+  eleventyConfig.addCollection("projects", (collectionApi) =>
+    collectionApi
+      .getFilteredByGlob("src/en/projects/*.md")
+      .sort((a, b) => b.data.year - a.data.year),
+  );
 
   eleventyConfig.addPlugin(feedPlugin, {
     type: "atom",

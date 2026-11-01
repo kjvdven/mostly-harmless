@@ -1,0 +1,11 @@
+---
+layout: default.njk
+---
+<article class="layout py-8 flow">
+  <header class="flow flow-sm">
+    <h1>{{ title }}</h1>
+    <time datetime="{{ page.date.toISOString() }}">{{ page.date | readableDate }}</time>
+  </header>
+
+  {{ content | safe }}
+</article>

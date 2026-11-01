@@ -8,6 +8,7 @@ export default {
     projects: "Projects",
     about: "About",
     feed: "Feed",
+    findMe: "Find me",
     role: "Role",
     stack: "Stack",
     year: "Year",

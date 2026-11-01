@@ -1,0 +1,15 @@
+---
+layout: default.njk
+---
+<article class="layout py-8 flow">
+  <h1>{{ title }}</h1>
+
+  {{ content | safe }}
+
+  <h2>{{ "findMe" | t }}</h2>
+  <ul role="list">
+    {% for profile in site.profiles %}
+    <li><a href="{{ profile.url }}" rel="me">{{ profile.name }}</a></li>
+    {% endfor %}
+  </ul>
+</article>

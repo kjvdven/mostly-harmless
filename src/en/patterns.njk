@@ -1,0 +1,24 @@
+---
+title: Patterns
+layout: default.njk
+---
+<div class="layout py-8 flow">
+  <h1>{{ title }}</h1>
+
+  {% for category in ["component", "css", "snippet"] %}
+  {% set patterns = collections.patterns | where("data.category", category) | sort(false, false, "data.title") %}
+  {% if patterns.length %}
+  <section class="flow" aria-labelledby="category-{{ category }}">
+    <h2 id="category-{{ category }}">{{ ("category_" ~ category) | t }}</h2>
+    <ul role="list">
+      {% for pattern in patterns %}
+      <li>
+        <a href="{{ pattern.url }}">{{ pattern.data.title }}</a>
+        <p>{{ pattern.data.description }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+  {% endfor %}
+</div>

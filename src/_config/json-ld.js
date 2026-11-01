@@ -87,6 +87,22 @@ export function buildGraph(data) {
     graph.push(post);
   }
 
+  if (tags.includes("patterns")) {
+    const article = {
+      "@type": "TechArticle",
+      "@id": `${pageUrl}#article`,
+      headline: data.title,
+      description: data.description,
+      datePublished: page.date.toISOString(),
+      dateModified: (data.updated ?? page.date).toISOString(),
+      author: { "@id": personId },
+      keywords: tags.filter((tag) => tag !== "patterns").join(", ") || undefined,
+      inLanguage: lang,
+    };
+    webPage.mainEntity = { "@id": article["@id"] };
+    graph.push(article);
+  }
+
   // Home -> section -> page, from the URL: /en/blog/post/ has segments ["blog", "post"].
   const segments = page.url.split("/").filter(Boolean).slice(1);
   if (segments.length) {

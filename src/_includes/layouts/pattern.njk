@@ -1,0 +1,21 @@
+---
+layout: default.njk
+---
+<article class="layout py-8 flow">
+  <header class="flow flow-sm">
+    <h1>{{ title }}</h1>
+    <p>{{ description }}</p>
+    <dl>
+      <dt>{{ "category" | t }}</dt>
+      <dd>{{ ("category_" ~ category) | t }}</dd>
+      <dt>{{ "published" | t }}</dt>
+      <dd><time datetime="{{ page.date.toISOString() }}">{{ page.date | readableDate }}</time></dd>
+      {% if updated %}
+      <dt>{{ "updated" | t }}</dt>
+      <dd><time datetime="{{ updated.toISOString() }}">{{ updated | readableDate }}</time></dd>
+      {% endif %}
+    </dl>
+  </header>
+
+  {{ content | safe }}
+</article>

@@ -11,6 +11,7 @@ import { figure, split } from "./src/_config/shortcodes/figure.js";
 import { t } from "./src/_config/filters/t.js";
 import { jsonLd } from "./src/_config/filters/json-ld.js";
 import { readableDate } from "./src/_config/filters/readable-date.js";
+import { where } from "./src/_config/filters/where.js";
 
 export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(I18nPlugin, {
@@ -33,6 +34,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addFilter("t", t);
   eleventyConfig.addFilter("jsonLd", jsonLd);
   eleventyConfig.addFilter("readableDate", readableDate);
+  eleventyConfig.addFilter("where", where);
   eleventyConfig.addFilter("head", (items, count) => items.slice(0, count));
   eleventyConfig.addShortcode("svg", svg);
   eleventyConfig.addShortcode("figure", figure);

@@ -16,3 +16,7 @@ run = "rm -rf _site .11ty-vite"
 
 [tools]
 node = "24"
+
+[env]
+# Repo belongs to the private GitHub account; gh would otherwise use the active work account.
+GH_TOKEN = "{{ exec(command='gh auth token --user kjvdven') }}"

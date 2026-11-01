@@ -1,0 +1,13 @@
+---
+title: Projects
+layout: default.njk
+---
+<div class="layout py-8 flow">
+  <h1>Projects</h1>
+
+  <ul role="list" class="auto-grid gap-6">
+    {% for project in collections.projects %}
+    <li>{% include "partials/project-card.njk" %}</li>
+    {% endfor %}
+  </ul>
+</div>

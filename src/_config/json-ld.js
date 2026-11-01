@@ -46,6 +46,23 @@ export function buildGraph(data) {
   };
 
   const graph = [person, website, webPage];
+  const blogUrl = `${site.url}/${lang}/blog/`;
+  const blogId = `${blogUrl}#blog`;
+
+  if (page.url === `/${lang}/blog/`) {
+    const posts = (data.collections.blog ?? []).filter((post) => post.page.lang === lang);
+    const blog = {
+      "@type": "Blog",
+      "@id": blogId,
+      name: data.title,
+      url: blogUrl,
+      inLanguage: lang,
+      publisher: { "@id": personId },
+      blogPost: posts.map((post) => ({ "@id": `${site.url}${post.url}#post` })),
+    };
+    webPage.mainEntity = { "@id": blogId };
+    graph.push(blog);
+  }
 
   if (page.url === `/${lang}/about/`) {
     webPage["@type"] = "ProfilePage";
@@ -64,7 +81,7 @@ export function buildGraph(data) {
       author: { "@id": personId },
       keywords: tags.filter((tag) => tag !== "blog").join(", ") || undefined,
       inLanguage: lang,
-      isPartOf: { "@id": pageUrl },
+      isPartOf: { "@id": blogId },
     };
     webPage.mainEntity = { "@id": post["@id"] };
     graph.push(post);

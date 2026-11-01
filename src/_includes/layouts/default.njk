@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title }}</title>
+  {# vite-ignore: Vite would otherwise hash the feed into /assets/ and break its URL. #}
+  <link rel="alternate" type="application/atom+xml" href="/{{ page.lang }}/feed.xml" title="{{ site.name }}" vite-ignore>
   {% if noindex %}<meta name="robots" content="noindex">{% endif %}
     <link rel="stylesheet" href="/assets/css/app.css">
 <script type="module" src="/assets/js/app.js"></script>

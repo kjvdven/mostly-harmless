@@ -6,17 +6,17 @@ layout: default.njk
     <h1>{{ title }}</h1>
     <p>{{ description }}</p>
     <dl>
-      <dt>Role</dt>
+      <dt>{{ "role" | t }}</dt>
       <dd>{{ role }}</dd>
-      <dt>Stack</dt>
+      <dt>{{ "stack" | t }}</dt>
       <dd>{{ stack | join(", ") }}</dd>
-      <dt>Year</dt>
+      <dt>{{ "year" | t }}</dt>
       <dd>{{ year }}</dd>
     </dl>
     {% if links.live or links.repo %}
     <ul role="list">
-      {% if links.live %}<li><a href="{{ links.live }}">Visit the site</a></li>{% endif %}
-      {% if links.repo %}<li><a href="{{ links.repo }}">View the code</a></li>{% endif %}
+      {% if links.live %}<li><a href="{{ links.live }}">{{ "visitSite" | t }}</a></li>{% endif %}
+      {% if links.repo %}<li><a href="{{ links.repo }}">{{ "viewCode" | t }}</a></li>{% endif %}
     </ul>
     {% endif %}
   </header>

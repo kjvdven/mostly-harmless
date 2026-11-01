@@ -1,15 +1,15 @@
 <header>
   <a href="/{{ page.lang }}/">Mostly Harmless</a>
-  <nav aria-label="Main">
+  <nav aria-label="{{ 'mainNav' | t }}">
     <ul role="list">
       {% for item in [
-        { label: "Blog", url: "/" ~ page.lang ~ "/blog/" },
-        { label: "Patterns", url: "/" ~ page.lang ~ "/patterns/" },
-        { label: "Projects", url: "/" ~ page.lang ~ "/projects/" },
-        { label: "About", url: "/" ~ page.lang ~ "/about/" }
+        { key: "blog", url: "/" ~ page.lang ~ "/blog/" },
+        { key: "patterns", url: "/" ~ page.lang ~ "/patterns/" },
+        { key: "projects", url: "/" ~ page.lang ~ "/projects/" },
+        { key: "about", url: "/" ~ page.lang ~ "/about/" }
       ] %}
       {# startsWith: a case study keeps "Projects" marked as the current section. #}
-      <li><a href="{{ item.url }}"{% if page.url.startsWith(item.url) %} aria-current="{{ 'page' if page.url == item.url else 'true' }}"{% endif %}>{{ item.label }}</a></li>
+      <li><a href="{{ item.url }}"{% if page.url.startsWith(item.url) %} aria-current="{{ 'page' if page.url == item.url else 'true' }}"{% endif %}>{{ item.key | t }}</a></li>
       {% endfor %}
     </ul>
   </nav>

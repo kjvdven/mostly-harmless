@@ -1,6 +1,7 @@
 export default {
   en: {
     skipLink: "Skip to content",
+    home: "Home",
     mainNav: "Main",
     blog: "Blog",
     patterns: "Patterns",

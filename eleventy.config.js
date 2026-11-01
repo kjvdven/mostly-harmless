@@ -8,6 +8,7 @@ import { createCssVariablesTheme } from "shiki";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { svg } from "./src/_config/shortcodes/svg.js";
 import { figure, split } from "./src/_config/shortcodes/figure.js";
+import { t } from "./src/_config/filters/t.js";
 
 export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(I18nPlugin, {
@@ -27,6 +28,7 @@ export default async function (eleventyConfig) {
     widths: ["auto"],
   });
 
+  eleventyConfig.addFilter("t", t);
   eleventyConfig.addShortcode("svg", svg);
   eleventyConfig.addShortcode("figure", figure);
   eleventyConfig.addPairedShortcode("split", split);

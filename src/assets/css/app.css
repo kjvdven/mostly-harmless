@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "allo-font/friendly";
 @import "./base/typography.css";
 @import "./components/prose.css";
 @import "./utilities/layout.css";

@@ -63,3 +63,7 @@
   --text-4xl: var(--step-5);
   --text-5xl: var(--step-6);
 }
+
+@theme {
+  --font-sans: "Allo", ui-sans-serif, system-ui, sans-serif;
+}
